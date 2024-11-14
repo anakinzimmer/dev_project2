@@ -1,19 +1,31 @@
-import streamlit as st
-from Main import process_city_info  # Importing the function from Main.py
+from flask import Flask, request, render_template
+from Attractions_API_FINAL import get_attractions  # Adjust import as needed
+from Restaraunt_API_FINAL import get_restaurants  # Adjust import as needed
+from Weather_API_FINAL import get_weather  # Adjust import as needed
 
-# Title for the web app
-st.title("City Information Form")
+app = Flask(__name__)
 
-# Input fields for the city, state, and area
-city = st.text_input("Enter the City")
-state = st.text_input("Enter the State")
-area = st.number_input("Enter the Area (in KM)", min_value=0.0)
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-# Button to submit the form
-if st.button("Submit"):
-    if city and state and area > 0:
-        # Call the function from Main.py and pass the inputs
-        output_message = process_city_info(city, state, area)
-        st.success(output_message)  # Display the result from Main.py
-    else:
-        st.error("Please fill in all the fields correctly.")
+@app.route('/results', methods=['POST'])
+def results():
+    if request.method == 'POST':
+        city = request.form['city']
+        state = request.form['state']
+        area_km = request.form['area_km']
+
+        # Call the functions from your API files to get data
+        weather = get_weather(city, state)
+        attractions = get_attractions(city, state, area_km)
+        restaurants = get_restaurants(city, state, area_km)
+
+        return render_template('results.html', 
+                               city=city, state=state, 
+                               weather=weather, 
+                               attractions=attractions, 
+                               restaurants=restaurants)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)  # Runs on EC2 with public access
