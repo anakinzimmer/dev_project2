@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template
-from Attractions_API_FINAL import get_attractions  # Adjust import as needed
+from Attractions_API_FINAL import get_local_attractions  # Adjust import as needed
 from Restaraunt_API_FINAL import get_restaurants  # Adjust import as needed
 from Weather_API_FINAL import get_weather  # Adjust import as needed
 
