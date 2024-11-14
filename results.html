@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Itinerary Results</title>
+</head>
+<body>
+    <h1>Travel Itinerary for {{ city }}, {{ state }}</h1>
+    <h2>Weather:</h2>
+    <p>{{ weather }}</p>
+
+    <h2>Attractions:</h2>
+    <ul>
+        {% for attraction in attractions %}
+            <li>{{ attraction }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Restaurants:</h2>
+    <ul>
+        {% for restaurant in restaurants %}
+            <li>{{ restaurant }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
